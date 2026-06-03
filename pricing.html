@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing — Novu</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+NZ+Basic:wght@100..400&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -74,7 +75,7 @@
             position: relative;
             z-index: 1;
             text-align: center;
-            padding: 160px 24px 64px;
+            padding: 160px 24px 80px;
         }
         .page-header .section-label {
             font-size: 11px;
@@ -100,47 +101,6 @@
             margin: 0 auto;
         }
 
-        /* ── BILLING TOGGLE ── */
-        .billing-toggle {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            margin-bottom: 64px;
-        }
-        .toggle-label { font-size: 14px; color: var(--muted); }
-        .toggle-label.active { color: var(--text); font-weight: 500; }
-        .toggle {
-            width: 48px; height: 26px;
-            background: var(--border);
-            border-radius: 999px;
-            cursor: pointer;
-            position: relative;
-            transition: background 0.2s;
-            border: none;
-        }
-        .toggle.on { background: var(--violet); }
-        .toggle-thumb {
-            position: absolute;
-            top: 3px; left: 3px;
-            width: 20px; height: 20px;
-            border-radius: 50%;
-            background: white;
-            transition: transform 0.2s;
-        }
-        .toggle.on .toggle-thumb { transform: translateX(22px); }
-        .save-badge {
-            background: #7C5CFC22;
-            color: var(--lavender);
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            padding: 3px 10px;
-            border-radius: 999px;
-        }
-
         /* ── PRICING CARDS ── */
         .pricing-grid {
             position: relative;
@@ -161,9 +121,7 @@
             padding: 48px 40px;
             position: relative;
         }
-        .plan.featured {
-            background: #0F0F1E;
-        }
+        .plan.featured { background: #0F0F1E; }
         .plan.featured::before {
             content: '';
             position: absolute;
@@ -195,7 +153,7 @@
             display: flex;
             align-items: baseline;
             gap: 4px;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
         .price-currency { font-size: 20px; font-weight: 600; color: var(--muted); margin-top: 8px; }
         .price-amount {
@@ -229,12 +187,15 @@
             box-shadow: 0 0 32px #7C5CFC33;
         }
         .plan-cta.filled:hover { opacity: 0.9; transform: translateY(-1px); }
-        .plan-divider {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin-bottom: 28px;
+        .plan-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 28px; }
+        .features-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 20px;
         }
-        .features-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
         .feature-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
         .feature-list li {
             display: flex;
@@ -256,7 +217,7 @@
         }
         .check.yes { background: #00E5FF18; color: var(--cyan); border: 1px solid #00E5FF33; }
         .check.no { background: #ffffff08; color: var(--muted); border: 1px solid var(--border); }
-        .feature-list li .premium-tag {
+        .premium-tag {
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 1px;
@@ -283,15 +244,11 @@
             margin-bottom: 40px;
             text-align: center;
         }
-        .faq-item {
-            border-bottom: 1px solid var(--border);
-            padding: 24px 0;
-        }
+        .faq-item { border-bottom: 1px solid var(--border); padding: 24px 0; }
         .faq-q {
             font-weight: 600;
             font-size: 16px;
             margin-bottom: 10px;
-            cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -349,41 +306,30 @@
     <p>Start free. Upgrade when your server is ready for more.</p>
 </div>
 
-<!-- BILLING TOGGLE -->
-<div class="billing-toggle">
-    <span class="toggle-label active" id="label-monthly">Monthly</span>
-    <button class="toggle" id="toggle" onclick="toggleBilling()">
-        <div class="toggle-thumb"></div>
-    </button>
-    <span class="toggle-label" id="label-annual">Annual <span class="save-badge">SAVE 20%</span></span>
-</div>
-
 <!-- PRICING CARDS -->
 <div class="pricing-grid">
 
     <!-- FREE -->
     <div class="plan">
+        <br><br>
         <div class="plan-name">Free</div>
         <div class="plan-desc">Everything you need to get started.</div>
         <div class="plan-price">
             <span class="price-currency">$</span>
             <span class="price-amount">0</span>
         </div>
-        <div class="plan-price" style="margin-top:-8px;">
-            <span class="price-period">forever</span>
-        </div>
-        <div class="price-note"></div>
+        <div class="price-note">No credit card required.</div>
         <a href="#" class="plan-cta outline">Add to Discord — Free</a>
         <hr class="plan-divider">
         <div class="features-label">What's included</div>
         <ul class="feature-list">
-            <li class="included"><span class="check yes">✓</span> Temp VC creation</li>
+            <li class="included"><span class="check yes">✓</span> Temp VC creation (upto to 4 channels)</li>
             <li class="included"><span class="check yes">✓</span> Auto cleanup</li>
-            <li class="included"><span class="check yes">✓</span> Lock & unlock</li>
-            <li class="included"><span class="check yes">✓</span> Rename channel</li>
-            <li class="included"><span class="check yes">✓</span> Set user limit</li>
             <li class="included"><span class="check yes">✓</span> Transfer ownership</li>
-            <li class="included"><span class="check yes">✓</span> Control panel</li>
+            <li><span class="check no">–</span> Lock & unlock</li>
+            <li><span class="check no">–</span> Rename channel</li>
+            <li><span class="check no">–</span> Set user limit</li>
+            <li><span class="check no">–</span> Control panel</li>
             <li><span class="check no">–</span> Audit logging</li>
             <li><span class="check no">–</span> Custom defaults</li>
             <li><span class="check no">–</span> Priority support</li>
@@ -397,22 +343,20 @@
         <div class="plan-desc">For servers that want full control.</div>
         <div class="plan-price">
             <span class="price-currency">$</span>
-            <span class="price-amount" id="price-display">4</span>
+            <span class="price-amount">3.99</span>
+            <span class="price-period">&nbsp;/ month</span>
         </div>
-        <div class="plan-price" style="margin-top:-8px;">
-            <span class="price-period">per server / month</span>
-        </div>
-        <div class="price-note" id="price-note">Billed monthly, cancel anytime.</div>
+        <div class="price-note">Per server. Cancel anytime.</div>
         <a href="#" class="plan-cta filled">Upgrade to Premium</a>
         <hr class="plan-divider">
         <div class="features-label">Everything in Free, plus</div>
         <ul class="feature-list">
-            <li class="included"><span class="check yes">✓</span> Temp VC creation</li>
+            <li class="included"><span class="check yes">✓</span> Temp VC creation (unlimited)</li>
             <li class="included"><span class="check yes">✓</span> Auto cleanup</li>
+            <li class="included"><span class="check yes">✓</span> Transfer ownership</li>
             <li class="included"><span class="check yes">✓</span> Lock & unlock</li>
             <li class="included"><span class="check yes">✓</span> Rename channel</li>
             <li class="included"><span class="check yes">✓</span> Set user limit</li>
-            <li class="included"><span class="check yes">✓</span> Transfer ownership</li>
             <li class="included"><span class="check yes">✓</span> Control panel</li>
             <li class="included"><span class="check yes">✓</span> Audit logging <span class="premium-tag">NEW</span></li>
             <li class="included"><span class="check yes">✓</span> Custom defaults</li>
@@ -422,10 +366,11 @@
 
 </div>
 
+<br>
+
 <!-- FAQ -->
 <div class="faq-section">
     <h2>Frequently asked questions</h2>
-
     <div class="faq-item">
         <div class="faq-q">What is a "server" for billing purposes?</div>
         <div class="faq-a">One premium subscription covers one Discord server (Guild). If you manage multiple servers, you'll need a separate subscription for each one.</div>
@@ -463,30 +408,5 @@
     <span class="footer-copy">© 2025 Novu. All rights reserved.</span>
 </footer>
 
-<script>
-    let isAnnual = false;
-
-    function toggleBilling() {
-        isAnnual = !isAnnual;
-        const toggle = document.getElementById('toggle');
-        const labelM = document.getElementById('label-monthly');
-        const labelA = document.getElementById('label-annual');
-        const priceEl = document.getElementById('price-display');
-        const noteEl = document.getElementById('price-note');
-
-        toggle.classList.toggle('on', isAnnual);
-        labelM.classList.toggle('active', !isAnnual);
-        labelA.classList.toggle('active', isAnnual);
-
-        // $4/mo monthly → $3.20/mo annual (20% off = $38.40/yr)
-        if (isAnnual) {
-            priceEl.textContent = '3.20';
-            noteEl.textContent = 'Billed $38.40/year. Save $9.60.';
-        } else {
-            priceEl.textContent = '4';
-            noteEl.textContent = 'Billed monthly, cancel anytime.';
-        }
-    }
-</script>
 </body>
 </html>
