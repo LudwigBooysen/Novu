@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing — Novu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cyan: #00E5FF;
+            --violet: #7C5CFC;
+            --lavender: #A78BFA;
+            --bg: #0D0D12;
+            --border: #1E1E2E;
+            --text: #F0F0F5;
+            --muted: #555570;
+            --card: #13131F;
+        }
+
+        html { scroll-behavior: smooth; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.025;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .orb-1 { width: 500px; height: 500px; background: #7C5CFC1A; top: -100px; right: -100px; }
+        .orb-2 { width: 400px; height: 400px; background: #00E5FF12; bottom: 0; left: -100px; }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 20px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(13,13,18,0.85);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+        .nav-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .nav-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
+        .nav-name { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+        .nav-links { display: flex; align-items: center; gap: 32px; }
+        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a.active { color: var(--text); }
+        .nav-cta { background: var(--cyan); color: #000 !important; padding: 8px 20px; border-radius: 8px; font-weight: 600 !important; }
+
+        /* ── PAGE HEADER ── */
+        .page-header {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 160px 24px 64px;
+        }
+        .page-header .section-label {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cyan);
+            margin-bottom: 16px;
+        }
+        .page-header h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+        .page-header p {
+            color: var(--muted);
+            font-size: 18px;
+            font-weight: 300;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+
+        /* ── BILLING TOGGLE ── */
+        .billing-toggle {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 64px;
+        }
+        .toggle-label { font-size: 14px; color: var(--muted); }
+        .toggle-label.active { color: var(--text); font-weight: 500; }
+        .toggle {
+            width: 48px; height: 26px;
+            background: var(--border);
+            border-radius: 999px;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.2s;
+            border: none;
+        }
+        .toggle.on { background: var(--violet); }
+        .toggle-thumb {
+            position: absolute;
+            top: 3px; left: 3px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: white;
+            transition: transform 0.2s;
+        }
+        .toggle.on .toggle-thumb { transform: translateX(22px); }
+        .save-badge {
+            background: #7C5CFC22;
+            color: var(--lavender);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 3px 10px;
+            border-radius: 999px;
+        }
+
+        /* ── PRICING CARDS ── */
+        .pricing-grid {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .plan {
+            background: var(--card);
+            padding: 48px 40px;
+            position: relative;
+        }
+        .plan.featured {
+            background: #0F0F1E;
+        }
+        .plan.featured::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--violet), var(--cyan));
+        }
+        .plan-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--violet), var(--cyan));
+            color: #000;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 24px;
+        }
+        .plan-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .plan-desc { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+        .plan-price {
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+        .price-currency { font-size: 20px; font-weight: 600; color: var(--muted); margin-top: 8px; }
+        .price-amount {
+            font-family: 'Syne', sans-serif;
+            font-size: 56px;
+            font-weight: 800;
+            letter-spacing: -3px;
+            line-height: 1;
+        }
+        .price-period { font-size: 14px; color: var(--muted); }
+        .price-note { font-size: 12px; color: var(--muted); margin-bottom: 32px; min-height: 18px; }
+        .plan-cta {
+            display: block;
+            text-align: center;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            margin-bottom: 36px;
+            transition: all 0.2s;
+        }
+        .plan-cta.outline {
+            border: 1px solid var(--border);
+            color: var(--text);
+        }
+        .plan-cta.outline:hover { border-color: var(--muted); transform: translateY(-1px); }
+        .plan-cta.filled {
+            background: linear-gradient(135deg, var(--violet), var(--cyan));
+            color: #000;
+            box-shadow: 0 0 32px #7C5CFC33;
+        }
+        .plan-cta.filled:hover { opacity: 0.9; transform: translateY(-1px); }
+        .plan-divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin-bottom: 28px;
+        }
+        .features-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+        .feature-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+        .feature-list li.included { color: var(--text); }
+        .check {
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .check.yes { background: #00E5FF18; color: var(--cyan); border: 1px solid #00E5FF33; }
+        .check.no { background: #ffffff08; color: var(--muted); border: 1px solid var(--border); }
+        .feature-list li .premium-tag {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--lavender);
+            background: #7C5CFC15;
+            padding: 1px 6px;
+            border-radius: 4px;
+            margin-left: 4px;
+        }
+
+        /* ── FAQ ── */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px 120px;
+        }
+        .faq-section h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+        }
+        .faq-q {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-q::after { content: '+'; color: var(--cyan); font-size: 20px; font-weight: 300; }
+        .faq-a { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 40px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { color: var(--muted); text-decoration: none; font-size: 13px; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--text); }
+        .footer-copy { color: var(--muted); font-size: 13px; }
+
+        @media (max-width: 680px) {
+            .pricing-grid { grid-template-columns: 1fr; }
+            nav { padding: 16px 20px; }
+            .nav-links { display: none; }
+            footer { flex-direction: column; align-items: flex-start; padding: 32px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- NAV -->
+<nav>
+    <a href="index.html" class="nav-brand">
+        <div class="nav-dot"></div>
+        <span class="nav-name">novu</span>
+    </a>
+    <div class="nav-links">
+        <a href="index.html#features">Features</a>
+        <a href="index.html#how-it-works">How it works</a>
+        <a href="pricing.html" class="active">Pricing</a>
+        <a href="#" class="nav-cta">Add to Discord</a>
+    </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div class="section-label">Pricing</div>
+    <h1>Simple, transparent<br>pricing.</h1>
+    <p>Start free. Upgrade when your server is ready for more.</p>
+</div>
+
+<!-- BILLING TOGGLE -->
+<div class="billing-toggle">
+    <span class="toggle-label active" id="label-monthly">Monthly</span>
+    <button class="toggle" id="toggle" onclick="toggleBilling()">
+        <div class="toggle-thumb"></div>
+    </button>
+    <span class="toggle-label" id="label-annual">Annual <span class="save-badge">SAVE 20%</span></span>
+</div>
+
+<!-- PRICING CARDS -->
+<div class="pricing-grid">
+
+    <!-- FREE -->
+    <div class="plan">
+        <div class="plan-name">Free</div>
+        <div class="plan-desc">Everything you need to get started.</div>
+        <div class="plan-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount">0</span>
+        </div>
+        <div class="plan-price" style="margin-top:-8px;">
+            <span class="price-period">forever</span>
+        </div>
+        <div class="price-note"></div>
+        <a href="#" class="plan-cta outline">Add to Discord — Free</a>
+        <hr class="plan-divider">
+        <div class="features-label">What's included</div>
+        <ul class="feature-list">
+            <li class="included"><span class="check yes">✓</span> Temp VC creation</li>
+            <li class="included"><span class="check yes">✓</span> Auto cleanup</li>
+            <li class="included"><span class="check yes">✓</span> Lock & unlock</li>
+            <li class="included"><span class="check yes">✓</span> Rename channel</li>
+            <li class="included"><span class="check yes">✓</span> Set user limit</li>
+            <li class="included"><span class="check yes">✓</span> Transfer ownership</li>
+            <li class="included"><span class="check yes">✓</span> Control panel</li>
+            <li><span class="check no">–</span> Audit logging</li>
+            <li><span class="check no">–</span> Custom defaults</li>
+            <li><span class="check no">–</span> Priority support</li>
+        </ul>
+    </div>
+
+    <!-- PREMIUM -->
+    <div class="plan featured">
+        <div class="plan-badge">Premium</div>
+        <div class="plan-name">Premium</div>
+        <div class="plan-desc">For servers that want full control.</div>
+        <div class="plan-price">
+            <span class="price-currency">$</span>
+            <span class="price-amount" id="price-display">4</span>
+        </div>
+        <div class="plan-price" style="margin-top:-8px;">
+            <span class="price-period">per server / month</span>
+        </div>
+        <div class="price-note" id="price-note">Billed monthly, cancel anytime.</div>
+        <a href="#" class="plan-cta filled">Upgrade to Premium</a>
+        <hr class="plan-divider">
+        <div class="features-label">Everything in Free, plus</div>
+        <ul class="feature-list">
+            <li class="included"><span class="check yes">✓</span> Temp VC creation</li>
+            <li class="included"><span class="check yes">✓</span> Auto cleanup</li>
+            <li class="included"><span class="check yes">✓</span> Lock & unlock</li>
+            <li class="included"><span class="check yes">✓</span> Rename channel</li>
+            <li class="included"><span class="check yes">✓</span> Set user limit</li>
+            <li class="included"><span class="check yes">✓</span> Transfer ownership</li>
+            <li class="included"><span class="check yes">✓</span> Control panel</li>
+            <li class="included"><span class="check yes">✓</span> Audit logging <span class="premium-tag">NEW</span></li>
+            <li class="included"><span class="check yes">✓</span> Custom defaults</li>
+            <li class="included"><span class="check yes">✓</span> Priority support</li>
+        </ul>
+    </div>
+
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+    <h2>Frequently asked questions</h2>
+
+    <div class="faq-item">
+        <div class="faq-q">What is a "server" for billing purposes?</div>
+        <div class="faq-a">One premium subscription covers one Discord server (Guild). If you manage multiple servers, you'll need a separate subscription for each one.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">How do I apply premium to my server?</div>
+        <div class="faq-a">During checkout you'll be asked to enter your Discord Guild ID. You can find this by enabling Developer Mode in Discord, then right-clicking your server icon and selecting "Copy Server ID".</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">What happens if I cancel?</div>
+        <div class="faq-a">Your premium features stay active until the end of your current billing period. After that, your server reverts to the free plan automatically — no data is lost.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">Do you offer refunds?</div>
+        <div class="faq-a">Yes. We offer a full refund within 3 days of your initial purchase if you're unsatisfied for any reason. See our <a href="refund-policy.html" style="color:var(--cyan)">Refund Policy</a> for full details.</div>
+    </div>
+    <div class="faq-item">
+        <div class="faq-q">What payment methods do you accept?</div>
+        <div class="faq-a">Payments are processed securely by Paddle. We accept all major credit and debit cards. Paddle is the merchant of record, so your statement will show a Paddle charge.</div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <a href="index.html" class="nav-brand">
+        <div class="nav-dot"></div>
+        <span class="nav-name">novu</span>
+    </a>
+    <div class="footer-links">
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="terms-of-service.html">Terms of Service</a>
+        <a href="refund-policy.html">Refund Policy</a>
+        <a href="#">Support Server</a>
+    </div>
+    <span class="footer-copy">© 2025 Novu. All rights reserved.</span>
+</footer>
+
+<script>
+    let isAnnual = false;
+
+    function toggleBilling() {
+        isAnnual = !isAnnual;
+        const toggle = document.getElementById('toggle');
+        const labelM = document.getElementById('label-monthly');
+        const labelA = document.getElementById('label-annual');
+        const priceEl = document.getElementById('price-display');
+        const noteEl = document.getElementById('price-note');
+
+        toggle.classList.toggle('on', isAnnual);
+        labelM.classList.toggle('active', !isAnnual);
+        labelA.classList.toggle('active', isAnnual);
+
+        // $4/mo monthly → $3.20/mo annual (20% off = $38.40/yr)
+        if (isAnnual) {
+            priceEl.textContent = '3.20';
+            noteEl.textContent = 'Billed $38.40/year. Save $9.60.';
+        } else {
+            priceEl.textContent = '4';
+            noteEl.textContent = 'Billed monthly, cancel anytime.';
+        }
+    }
+</script>
+</body>
+</html>
