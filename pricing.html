@@ -373,24 +373,6 @@
             </a>
         </div>
 
-        <script>
-            function openCheckout(e) {
-                e.preventDefault();
-
-                const guildId = document.getElementById('guild-id-input').value.trim();
-
-                if (!guildId) {
-                    alert('Please enter your Discord Server ID first.');
-                    return;
-                }
-
-                Paddle.Checkout.open({
-                    items: [{ priceId: "pri_01kt80x1c4k76fc2cyedm9kxr4", quantity: 1 }],
-                    customData: { guildId: guildId }
-                });
-            }
-        </script>
-
         <hr class="plan-divider">
         <div class="features-label">Everything in Free, plus</div>
         <ul class="feature-list">
@@ -460,6 +442,22 @@
     Paddle.Initialize({
         token: "test_713baa6e24061f3ac2abdf73c1b" // from Paddle Dashboard → Authentication → Client-side token
     });
+
+    function openCheckout(e) {
+        e.preventDefault();
+
+        const guildId = document.getElementById('guild-id-input').value.trim();
+
+        if (!guildId) {
+            alert('Please enter your Discord Server ID first.');
+            return;
+        }
+
+        Paddle.Checkout.open({
+            items: [{ priceId: "pri_01kt80x1c4k76fc2cyedm9kxr4", quantity: 1 }],
+            customData: { guildId: guildId }
+        });
+    }
 </script>
 
 </body>
