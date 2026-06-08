@@ -368,8 +368,8 @@
             <small style="color:#555570; font-size:12px;">
                 Find this in Discord: Enable Developer Mode → right-click your server → Copy Server ID
             </small>
-            <a href="#" class="plan-cta filled" onclick="openCheckout(event)">
-                Upgrade to Premium
+            <a href="#" class="plan-cta filled" onclick="">
+                Upgrade to Premium - Coming Soon
             </a>
         </div>
 
@@ -432,33 +432,6 @@
     </div>
     <span class="footer-copy">© 2025 Novu. All rights reserved.</span>
 </footer>
-
-<!-- Paddle.js -->
-<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-<script>
-    // Sandbox mode — remove this line in production
-    Paddle.Environment.set("sandbox");
-
-    Paddle.Initialize({
-        token: "test_713baa6e24061f3ac2abdf73c1b" // from Paddle Dashboard → Authentication → Client-side token
-    });
-
-    function openCheckout(e) {
-        e.preventDefault();
-
-        const guildId = document.getElementById('guild-id-input').value.trim();
-
-        if (!guildId) {
-            alert('Please enter your Discord Server ID first.');
-            return;
-        }
-
-        Paddle.Checkout.open({
-            items: [{ priceId: "pri_01kt80x1c4k76fc2cyedm9kxr4", quantity: 1 }],
-            customData: { guildId: guildId }
-        });
-    }
-</script>
 
 </body>
 </html>
