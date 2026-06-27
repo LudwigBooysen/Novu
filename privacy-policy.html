@@ -61,6 +61,9 @@
         <li><strong>Channel IDs</strong> — the designated "Create VC" channel and category configured per server</li>
         <li><strong>User ID</strong> — to track ownership of temporary voice channels</li>
         <li><strong>Temporary channel records</strong> — channel ID, owner ID, guild ID, and creation timestamp, stored only for the duration the channel is active</li>
+        <li><strong>Premium status</strong> — a flag indicating whether your server has an active premium subscription</li>
+        <li><strong>Audit log channel</strong> — the Discord channel ID you designate to receive audit log events, if configured</li>
+        <li><strong>Channel defaults</strong> — your preferred channel name template, user limit, and lock state for new temporary voice channels, if configured</li>
     </ul>
     <p>We do not collect message content, usernames, profile pictures, or any personally identifiable information beyond Discord-issued IDs.</p>
 
@@ -76,7 +79,7 @@
     <h2>3. Data Retention</h2>
     <ul>
         <li><strong>Temporary channel records</strong> are deleted automatically when the channel is removed</li>
-        <li><strong>Server configuration</strong> (guild ID, channel ID, category ID) is retained until you run <code>/reset</code> or remove the bot from your server</li>
+        <li><strong>Server configuration</strong> (guild ID, channel IDs, category ID, premium status, audit log channel, and channel defaults) is retained until you run <code>/reset</code> or remove the bot from your server</li>
     </ul>
 
     <h2>4. Data Sharing</h2>
