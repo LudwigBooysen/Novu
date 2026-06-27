@@ -13,6 +13,54 @@
             font-size: 16px;
             line-height: 1.7;
         }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(13,13,18,0.90);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .nav-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: var(--cyan);
+            box-shadow: 0 0 10px var(--cyan);
+        }
+        .nav-name {
+            font-family: 'Syne', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.5px;
+        }
+        .nav-back {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-back:hover { color: var(--cyan); }
+        .nav-back::before { content: '←'; font-size: 14px; }
+
+        /* ---- Remaining styles ---- */
+
         .container { max-width: 760px; margin: 0 auto; padding: 60px 24px; }
         .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 48px; }
         .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: #00e5ff; }
@@ -41,12 +89,16 @@
     </style>
 </head>
 <body>
-<div class="container">
 
-    <div class="brand">
-        <div class="brand-dot"></div>
-        <span class="brand-name">novu</span>
-    </div>
+<nav>
+    <a href="index.html" class="nav-brand">
+        <div class="nav-dot"></div>
+        <span class="nav-name">novu</span>
+    </a>
+    <a href="index.html" class="nav-back">Back to Novu</a>
+</nav>
+
+<div class="container">
 
     <span class="tag">LEGAL</span>
     <h1>Terms of Service</h1>
